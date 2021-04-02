@@ -1,8 +1,12 @@
-# Secure Data Store
-
-![Vendor Interoperability](https://github.com/decentralized-identity/confidential-storage/workflows/Vendor%20Interoperability/badge.svg)
+# Encrypted Data Vaults
 
 ## [Latest Editors Draft](https://identity.foundation/confidential-storage/)
+
+## Related Repos
+
+- https://github.com/decentralized-identity/edv-spec
+- https://github.com/decentralized-identity/edv-test-suite
+- https://github.com/decentralized-identity/edv-sample-implementation
 
 ### From the Working Group Charter:
 
