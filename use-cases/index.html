@@ -217,7 +217,11 @@ I want to be able to revoke the access of others at any time. When sharing data,
 I can include an expiration date for the access to my data by a third-party.
 </p>
 
-<h3>Replication - Store the same data in more than one place </h3>
+<section>
+  <h3>Replication Use Cases</h3>
+
+  <section>
+<h4>Store the same data in more than one place </h4>
 
 <p>
 I want to back up my data across multiple storage locations in case one fails.
@@ -228,9 +232,10 @@ synchronize between each other so data is up to date in both places regardless
 of how I create or update data, and this should happen automatically and without
 my help as much as possible.
 </p>
+  </section>
 
-
-<h3>Backup / Disaster Recovery </h3>
+  <section>
+<h4>Backup / Disaster Recovery</h4>
 
 <p>
 Alice sets up replication to a backup instance so that she does not lose her
@@ -238,76 +243,60 @@ data in case her primary instance is damaged/lost etc.
 </p>
 
 <ul>
-    <li>
-        Replication for purposes of data backup
-    </li>
-    <li>
-        Either involves periodic full-sync replications, or a combination of realtime
-    replication and full-syncs.
-    </li>
-    <li>
-        Typically involves unidirectional replication (from an "active" source
-        instance to the target backup instance).
-    </li>
+  <li>Replication for purposes of data backup</li>
+  <li>Either involves periodic full-sync replications, or a combination of
+    realtime replication and full-syncs.</li>
+  <li>Typically involves unidirectional replication (from an "active" source
+    instance to the target backup instance).</li>
 </ul>
-<h3> Continuous Replication / Replication on Reconnect</h3>
+  </section>
+
+  <section>
+<h4>Continuous Replication / Replication on Reconnect</h4>
 
 <p>
-Alice has multiple instances, and would like to synchronize their contents among
-all of them. When her local instance is offline, Alice wants to still be able to
-make updates to it. When that instance reconnects, it is expected to hand off
-all of the changes that occurred while it was disconnected (and receive changes
-from the other instances). This is useful for many different situations:
+  Alice has multiple instances, and would like to synchronize their contents among
+  all of them. When her local instance is offline, Alice wants to still be able to
+  make updates to it. When that instance reconnects, it is expected to hand off
+  all of the changes that occurred while it was disconnected (and receive changes
+  from the other instances). This is useful for many different situations:
 </p>
 
 <ul>
-    <li>
-        Airplane / any other vehicle
-    </li>
-    <li>
-        Sleeping with the phone off
-    </li>
-    <li>
-        Cloud vendor experiences technical difficulties
-    </li>
-    <li>
-        Power outage at home
-    </li>
+  <li>Airplane / any other vehicle</li>
+  <li>Sleeping with the phone off</li>
+  <li>Cloud vendor experiences technical difficulties</li>
+  <li>Power outage at home</li>
 </ul>
 
 <p>Notes</p>
 
 <ul>
-    <li>
-        A combination of full-sync and realtime replication.
-    </li>
-    <li>
-        Bidirectional replication among two or more instances.
-    </li>
-    <li>
-        Updates to objects can occur at any instance, and are expected to propagate
-    to all the other ones.
-    </li>
+  <li>A combination of full-sync and realtime replication.</li>
+  <li>Bidirectional replication among two or more instances.</li>
+  <li>Updates to objects can occur at any instance, and are expected to propagate
+    to all the other ones.</li>
 </ul>
+  </section>
 
-<h3> Geographic Availability</h3>
+  <section>
+<h4> Geographic Availability</h4>
 
 <p>
-An organization has two geographically distributed instances. Updates to one
-instance are expected to propagate as soon as possible to the other instance. If
-one of those goes down, read and write traffic can be redirected to the
-remaining one, with minimal interruption in data availability.
+  An organization has two geographically distributed instances. Updates to one
+  instance are expected to propagate as soon as possible to the other instance. If
+  one of those goes down, read and write traffic can be redirected to the
+  remaining one, with minimal interruption in data availability.
 </p>
 
 <ul>
-    <li>
-        Primarily realtime replication (with fallback to full-sync if connection is
-        ever severed).
-    </li>
-    <li>
-        Bidirectional replication among one or more active instances.
-    </li>
+  <li>Primarily realtime replication (with fallback to full-sync if connection is
+  ever severed).</li>
+  <li>Bidirectional replication among one or more active instances.</li>
 </ul>
+  </section>
+
+</section>
 
 <h3> Alice wants to publish public plaintext about Bob or Carl in a censorship resistant manner.
 </h3>
