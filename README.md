@@ -7,6 +7,10 @@ Community Group (CCG) of the W3C.
 
 ## Latest [Editors Draft](https://identity.foundation/confidential-storage/)
 
+See also:
+
+* [Encrypted Data Vault Use Cases](https://github.com/decentralized-identity/edv-use-cases)
+
 ### From the [Working Group Charter](https://drive.google.com/file/d/1vf2CsD9QZstzrd6CJ4WFVHw0WKwwNLHf/view):
 
 > Create one or more specifications to establish a foundational layer 
