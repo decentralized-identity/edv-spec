@@ -1760,6 +1760,15 @@ Encrypted Data Vault
                   Batch Operations
               </h3>
 
+              <p class="issue atrisk" title="Implementation of Batch Endpoint">
+                  There is an ongoing debate in the Secure Data Storage Working Group regarding whether or not
+                  a batch API is necessary to achieve acceptable levels of performance. The Secure Data Storage
+                  Working Group is seeking implementer feedback regarding this feature, or alternatively, the use
+                  of parallel requests to achieve similar performance characteristics. Additionally, the operation
+                  syntax is not yet finalized.
+                  See also <a href="https://github.com/decentralized-identity/edv-spec/issues/4"> Issue #4</a>.
+              </p>
+
               <p>
                   Documents within a vault can be created, updated or deleted in a single REST call.
                   The following HTTP status codes are defined for this service:
@@ -1793,7 +1802,7 @@ Encrypted Data Vault
               </p>
 
               <pre class="example highlight" title="Data vault batch operation request">
-  POST  /encrypted-data-vaults/z4sRgBJJLnYy HTTP/1.1
+  POST  /edvs/z4sRgBJJLnYy/batch HTTP/1.1
   Host: example.com
   Content-Type: application/json
   Accept: application/json, text/plain, */*
@@ -1841,8 +1850,6 @@ Encrypted Data Vault
               <p>
                   If all operations are successful, an HTTP 200 status
                   code is expected in return. The response body will be an array of responses - one for each operation.
-                  For create document operations, the new document location will be returned.
-                  For update or delete document operations, a blank string will be returned.
               </p>
 
               <pre class="example highlight" title="Successful batch operation response">
@@ -1850,7 +1857,44 @@ Encrypted Data Vault
   Cache-Control: no-cache, no-store, must-revalidate
   Date: Fri, 14 Jun 2019 18:40:18 GMT
   Connection: keep-alive
-  ["https://example.com/encrypted-data-vaults/z4sRgBJJLnYy/docs/LHMjVyevZgZh7BiCjCiu7P", "", ""]
+  [{
+    "status": 201,
+    "message": "created",
+    "location": "https://example.com/encrypted-data-vaults/z4sRgBJJLnYy/docs/LHMjVyevZgZh7BiCjCiu7P"
+   },
+   {
+    "status": 200,
+    "message": "updated"
+   },
+   {
+    "status": 200,
+    "message": "deleted"
+    }]
+          </pre>
+
+              <p>
+                  If one or more operations were unsuccessful, an HTTP 400 status
+                  code is expected in return. The response body will be an array of responses - one for each operation.
+              </p>
+
+              <pre class="example highlight" title="Batch operation response with a mix of successes and failures">
+  HTTP/1.1 400 Bad Request
+  Cache-Control: no-cache, no-store, must-revalidate
+  Date: Fri, 14 Jun 2019 18:40:18 GMT
+  Connection: keep-alive
+  [{
+    "status": 201,
+    "message": "created",
+    "location": "https://example.com/encrypted-data-vaults/z4sRgBJJLnYy/docs/LHMjVyevZgZh7BiCjCiu7P"
+   },
+   {
+    "status": 200,
+    "message": "updated"
+   },
+   {
+    "status": 404,
+    "message": "document not found"
+    }]
           </pre>
           </section>
 
