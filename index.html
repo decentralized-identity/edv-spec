@@ -2287,6 +2287,139 @@ Encrypted Data Vault
 
         <section class="normative">
           <h3>
+    Requesting History of Changes
+          </h3>
+
+          <p>
+  To facilitate use-cases such as efficiently replicating changes between different EDV
+  instances, it is advantageous for a client to be able to request the history of changes
+  from an EDV server. This section details the definition of an API that allows an EDV 
+  client to request from an EDV server a list of changes that have occurred, organized by
+  the documents the changes pertain to.
+          </p>
+
+          <p>
+  A request for the history of changes to an EDV server is performed by submitting an HTTP GET
+  request to the EDV servers <code>/history</code> endpoint.
+          </p>
+
+        <p>
+  The following HTTP status codes are valid for this endpoint
+        </p>
+
+        <table class="simple">
+          <thead>
+            <th style="white-space: nowrap">HTTP Status</th>
+            <th>Description</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>
+      Query for history was successful.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+          <p>
+  An example request is shown below:
+          </p>
+          
+          <pre class="example highlight" title="Example history API request">
+  GET https://example.com/encrypted-data-vaults/z4sRgBJJLnYy/history HTTP/1.1
+  Host: example.com
+  Content-Range: 0-1048576
+  Accept: application/json
+  Accept-Encoding: gzip, deflate
+          </pre>
+
+          <p>
+  If the retrieval of the history was successful, a response with an HTTP 200 status code is expected in return
+          </p>
+          
+          <p>
+  An example response is shown below:
+          </p>
+
+          <pre class="example highlight" title="Example history API response">
+  [
+    {
+        "documentId": "https://example/data-vaults/z4sRgBJJLnYy/docs/z4sAsDFrGYh",
+        "sequence": 1
+    },
+    {
+        "documentId": "https://example/data-vaults/z4sRgBJJLnYy/docs/zaCfHeKsNesS",
+        "sequence": 2
+    }
+  ]
+          </pre>
+
+
+          <h4>
+  Filtering History
+          </h4>
+          
+          <p>
+  In certain cases an EDV Client may want to filter the history returned by an EDV server,
+  to facilitate this the following Query Parameters are defined which can be added to a request to an EDV servers history API
+          </p>
+
+          <table class="simple">
+            <thead>
+              <th style="white-space: nowrap">Query Parameter</th>
+              <th>Data Type</th>
+              <th>Description</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>afterSequence</td>
+                <td>Unsigned Integer</td>
+                <td>
+  Query for changes to documents that have occurred after the supplied sequence value.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>
+            An example request filtering returned changes based on the <code>afterSequence</code> query parameter:
+          </p>
+                    
+          <pre class="example highlight" title="Example history API request filtering by sequence">
+  GET https://example.com/encrypted-data-vaults/z4sRgBJJLnYy/history?afterSequence=4 HTTP/1.1
+  Host: example.com
+  Content-Range: 0-1048576
+  Accept: application/json
+  Accept-Encoding: gzip, deflate
+          </pre>
+
+                    
+          <p>
+  An example response is shown below:
+          </p>
+          
+          <pre class="example highlight" title="Example history API response">
+  [
+    {
+        "documentId": "https://example/data-vaults/z4sRgBJJLnYy/docs/zyUtJ67Jm",
+        "sequence": 5
+    },
+    {
+        "documentId": "https://example/data-vaults/z4sRgBJJLnYy/docs/zaCHeJtUcNu",
+        "sequence": 6
+    },
+    {
+        "documentId": "https://example/data-vaults/z4sRgBJJLnYy/docs/zaasdChfrJsn",
+        "sequence": 7
+    }
+  ]
+          </pre>
+
+        </section>
+
+        <section class="normative">
+          <h3>
     Creating Encrypted Indexes
         </h3>
 
