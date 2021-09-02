@@ -931,22 +931,17 @@ interference or deletion by the server.
 
     <section class="normative">
       <h2>
-Encrypted Data Vault
+          Data Model
       </h2>
-
-      <section class="normative">
-        <h3>
-  Data Model
-        </h3>
 
         <p>
   The following sections outlines the data model for data vaults.
         </p>
 
         <section>
-          <h4>
+          <h3>
   DataVaultConfiguration
-          </h4>
+          </h3>
 
           <p class="issue">
   Data vault configuration isn't strictly necessary for using the other features
@@ -1058,9 +1053,9 @@ Encrypted Data Vault
         </section>
 
         <section>
-          <h4>
+          <h3>
     <dfn>StructuredDocument</dfn>
-          </h4>
+          </h3>
 
           <p>
   A structured document is used to store application data as well as metadata
@@ -1167,9 +1162,9 @@ Encrypted Data Vault
         </section>
 
         <section>
-          <h4>
+          <h3>
     <dfn>EncryptedDocument</dfn>
-          </h4>
+          </h3>
 
           <p>
   An encrypted document is used to store a structured document in a way that
@@ -1271,12 +1266,12 @@ Encrypted Data Vault
 
         </section>
 
-      </section>
+    </section>
 
-      <section class="normative">
-        <h3>
+    <section class="normative">
+      <h2>
   HTTP API
-        </h3>
+      </h2>
 
         <p>
   This section introduces the HTTPS API for interacting with data vaults and
@@ -1284,9 +1279,9 @@ Encrypted Data Vault
         </p>
 
         <section>
-          <h4>
+          <h3>
   Discovering Service Endpoints
-          </h4>
+          </h3>
 
           <p>
   A website may provide service endpoint discovery by embedding JSON-LD in their
@@ -1335,7 +1330,7 @@ Encrypted Data Vault
 
         <section class="normative">
           <h3>
-    Creating a data vault
+    Creating an Encrypted Data Vault
         </h3>
 
           <p>
@@ -1753,7 +1748,7 @@ Encrypted Data Vault
           </pre>
         </section>
 
-          <section class="normative">
+        <section class="normative">
               <h3>
                   Batch Operations
               </h3>
@@ -2336,7 +2331,7 @@ Encrypted Data Vault
           <p>
   To facilitate use-cases such as efficiently replicating changes between different EDV
   instances, it is advantageous for a client to be able to request the history of changes
-  from an EDV server. This section details the definition of an API that allows an EDV 
+  from an EDV server. This section details the definition of an API that allows an EDV
   client to request from an EDV server a list of changes that have occurred, organized by
   the documents the changes pertain to.
           </p>
@@ -2368,7 +2363,7 @@ Encrypted Data Vault
           <p>
   An example request is shown below:
           </p>
-          
+
           <pre class="example highlight" title="Example history API request">
   GET https://example.com/encrypted-data-vaults/z4sRgBJJLnYy/history HTTP/1.1
   Host: example.com
@@ -2379,7 +2374,7 @@ Encrypted Data Vault
           <p>
   If the retrieval of the history was successful, a response with an HTTP 200 status code is expected in return
           </p>
-          
+
           <p>
   An example response is shown below:
           </p>
@@ -2401,7 +2396,7 @@ Encrypted Data Vault
           <h4>
   Filtering History
           </h4>
-          
+
           <p>
   In certain cases an EDV Client may want to filter the history returned by an EDV server,
   to facilitate this the following Query Parameters are defined which can be added to a request to an EDV servers history API
@@ -2427,7 +2422,7 @@ Encrypted Data Vault
           <p>
             An example request filtering returned changes based on the <code>afterSequence</code> query parameter:
           </p>
-                    
+
           <pre class="example highlight" title="Example history API request filtering by sequence">
   GET https://example.com/encrypted-data-vaults/z4sRgBJJLnYy/history?afterSequence=4 HTTP/1.1
   Host: example.com
@@ -2436,11 +2431,11 @@ Encrypted Data Vault
   Accept-Encoding: gzip, deflate
           </pre>
 
-                    
+
           <p>
   An example response is shown below:
           </p>
-          
+
           <pre class="example highlight" title="Example history API response">
   [
     {
@@ -2899,9 +2894,9 @@ Encrypted Data Vault
 
         </section>
 
-      </section>
+    </section>
 
-      <section class="informative">
+    <section class="informative">
         <h2>Extension Points
               </h2>
         <p>
@@ -2928,8 +2923,6 @@ Encrypted Data Vault
     signal to clients that data has changed in the vault.
           </li>
         </ul>
-      </section>
-
 
     </section>
 
