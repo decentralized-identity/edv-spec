@@ -834,7 +834,7 @@ privacy-preserving querying over encrypted resources)
 <em>Versioning metadata</em> - such as sequence numbers, Git-like hashes, or other mechanisms
             </li>
             <li>
-<em>Encrypted resource payload</em> - encoded as a <code>jwe</code> [[RFC7516]], <code>cwe</code> [[RFC8152]] or other appropriate mechanism
+<em>Encrypted resource payload</em> - encoded as a <code>jwe</code> [[RFC7516]]
             </li>
           </ul>
         </section>
@@ -1201,9 +1201,9 @@ interference or deletion by the server.
                 </td>
               </tr>
               <tr>
-                <td>jwe or cwe</td>
+                <td>jwe</td>
                 <td>
-  A JSON Web Encryption or COSE Encrypted value that, if decoded, results in
+  A JSON Web Encryption object that, if decoded, results in
   the corresponding <a>StructuredDocument</a>.
                 </td>
               </tr>
@@ -1456,7 +1456,7 @@ interference or deletion by the server.
           <p>
   In order to convert a <a>StructuredDocument</a> to an
   <a>EncryptedDocument</a> an implementer MUST encode the
-  <a>StructuredDocument</a> as a JWE or a COSE Encrypted object. Once the
+  <a>StructuredDocument</a> as a JWE Encrypted object. Once the
   document is encrypted, it can be sent to the document creation service.
           </p>
 
@@ -1550,7 +1550,7 @@ interference or deletion by the server.
           <p>
   In order to convert an <a>EncryptedDocument</a> to a
   <a>StructuredDocument</a> an implementer MUST decode the
-  <a>EncryptedDocument</a> from a JWE or a COSE Encrypted object. Once the
+  <a>EncryptedDocument</a> from a JWE Encrypted object. Once the
   document is decrypted, it can be processed by the web application.
           </p>
 
@@ -1640,7 +1640,7 @@ interference or deletion by the server.
           <p>
   In order to convert a <a>StructuredDocument</a> to an
   <a>EncryptedDocument</a> an implementer MUST encode the
-  <a>StructuredDocument</a> as a JWE or a COSE Encrypted object. Once the
+  <a>StructuredDocument</a> as a JWE Encrypted object. Once the
   document is encrypted, it can be sent to the document creation service.
           </p>
 
