@@ -480,29 +480,35 @@ sysadmin controls the keys, not the user.
 
       <section class="normative">
         <h2>
-  Structured Document Resources
+          Encrypted Resources
         </h2>
 
-        <p>
+        <section class="normative">
+          <h3>
+            Structured Document Resources
+          </h3>
+
+          <p>
 The fundamental unit of storage in data vaults is the encrypted
 structured document which, when decrypted, provides a data structure that
 can be expressed in popular syntaxes such as JSON and CBOR. Documents can
 store structured data and metadata about the structured data.
-        </p>
-      </section>
+          </p>
+        </section>
 
-      <section class="normative">
-        <h2>
-  Stream Resources
-        </h2>
+        <section class="normative">
+          <h3>
+            Stream Resources
+          </h3>
 
-        <p>
-For files larger than 10MiB or for raw binary data formats such as audio,
+          <p>
+For documents larger than 10MiB or for raw binary data formats such as audio,
 video, and office productivity files, a streaming API is provided that
 enables data to be streamed to/from a data vault. Streams are described using
 structured documents, but the storage of the data is separated from the
 structured document using a hashlink to the encrypted content.
-        </p>
+          </p>
+        </section>
       </section>
 
       <section class="normative">
