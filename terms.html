@@ -22,6 +22,15 @@ An identifier as defined by [[RFC3986]].
 A Secure Data Storage <em>instance</em> is a deployment of software meeting the
 interface requirements for an EDV and/or Hub.
   </dd>
+
+  <dt><dfn>encrypted resource</dfn></dt>
+  <dd>
+An encrypted object (unstructured text, structured document or binary blob) stored
+in an EDV instance. JSON objects under 10MiB in size are stored in Structured Document
+resources. Binary objects, or JSON objects larger than the maximum size, are stored
+in Stream Resources.
+  </dd>
+
   <dt><dfn data-lt="replication|replication's">replication</dfn></dt>
   <dd>
 The process of copying the contents of an instance (stored encrypted objects
