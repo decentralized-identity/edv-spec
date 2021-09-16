@@ -507,21 +507,15 @@ structured document using a hashlink to the encrypted content.
 
       <section class="normative">
         <h2>
-  Indexing
+  Indexing and Querying
         </h2>
 
         <p>
 Data vaults are expected to store a very large number of documents
 of varying kinds. This means that it is important to be able to search the
 documents in a timely way, which creates a challenge for the storage provider
-as the content is encrypted. Previously this has been worked around
-with a certain amount of unencrypted metadata attached to the data objects.
-Another possibility is unencrypted listings of pointers to filtered subsets
-of data.
-        </p>
-        <p>
-In the case of data vaults, an encrypted search scheme is provided for
-secure data vaults that enable data vault clients to do meta data indexing while
+as the content is encrypted. An encrypted querying scheme is provided for
+secure data vaults that enable data vault clients to do metadata indexing while
 <em>not leaking</em> metadata to the storage provider.
         </p>
       </section>
@@ -615,6 +609,19 @@ Delete Index: Deletes an Index.
             <li>
 Delete Resource (Document or Stream): Deletes the encrypted resource (note that
 a tombstone object should remain behind for replication purposes).
+            </li>
+          </ul>
+        </section>
+
+        <section class="normative">
+          <h3>
+            Query Operation
+          </h3>
+
+          <ul>
+            <li>
+              Send Encrypted Index Query: Queries the encrypted resources in a given data vault based on created
+              indexes.
             </li>
           </ul>
         </section>
