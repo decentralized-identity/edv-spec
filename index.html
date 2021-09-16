@@ -1386,7 +1386,7 @@ interference or deletion by the server.
           </p>
 
           <pre class="example highlight" title="data vault creation request">
-  POST /data-vaults HTTP/1.1
+  POST /edvs HTTP/1.1
   Host: example.com
   Content-Type: application/json
   Accept: application/json, text/plain, */*
@@ -1478,7 +1478,7 @@ interference or deletion by the server.
           </p>
 
           <pre class="example highlight" title="data vault document creation request">
-  POST /encrypted-data-vaults/z4sRgBJJLnYy/docs HTTP/1.1
+  POST /edvs/z4sRgBJJLnYy/docs HTTP/1.1
   Host: example.com
   Content-Type: application/json
   Accept: application/json, text/plain, */*
@@ -1662,7 +1662,7 @@ interference or deletion by the server.
           </p>
 
           <pre class="example highlight" title="data vault document update request">
-  POST  /encrypted-data-vaults/z4sRgBJJLnYy/docs/zMbxmSDn2Xzz HTTP/1.1
+  POST  /edvs/z4sRgBJJLnYy/docs/zMbxmSDn2Xzz HTTP/1.1
   Host: example.com
   Content-Type: application/json
   Accept: application/json, text/plain, */*
@@ -1744,7 +1744,7 @@ interference or deletion by the server.
           </p>
 
           <pre class="example highlight" title="data vault document deletion request">
-  DELETE  /encrypted-data-vaults/z4sRgBJJLnYy/docs/zMbxmSDn2Xzz HTTP/1.1
+  DELETE  /edvs/z4sRgBJJLnYy/docs/zMbxmSDn2Xzz HTTP/1.1
   Host: example.com
           </pre>
 
@@ -1990,7 +1990,7 @@ interference or deletion by the server.
           </p>
 
           <pre class="example highlight" title="Encrypted document creation request for stream metadata">
-  POST /encrypted-data-vaults/z4sRgBJJLnYy/docs HTTP/1.1
+  POST /edvs/z4sRgBJJLnYy/docs HTTP/1.1
   Host: example.com
   Content-Type: application/json
   Accept: application/json, text/plain, */*
@@ -2042,7 +2042,7 @@ interference or deletion by the server.
           </p>
 
           <pre class="example highlight" title="Encrypted stream creation request">
-  POST /encrypted-data-vaults/z4sRgBJJLnYy/streams HTTP/1.1
+  POST /edvs/z4sRgBJJLnYy/streams HTTP/1.1
   Host: example.com
   Content-Type: application/octet-stream
   Transfer-Encoding: chunked
@@ -2119,7 +2119,7 @@ interference or deletion by the server.
           </p>
 
           <pre class="example highlight" title="Encrypted document update request for stream metadata">
-  POST /encrypted-data-vaults/z4sRgBJJLnYy/docs HTTP/1.1
+  POST /edvs/z4sRgBJJLnYy/docs HTTP/1.1
   Host: example.com
   Content-Type: application/json
   Accept: application/json, text/plain, */*
@@ -2295,7 +2295,7 @@ interference or deletion by the server.
           </p>
 
           <pre class="example highlight" title="data vault stream deletion request">
-  DELETE  /encrypted-data-vaults/z4sRgBJJLnYy/streams/zMbxmSDn2Xzz HTTP/1.1
+  DELETE  /edvs/z4sRgBJJLnYy/streams/zMbxmSDn2Xzz HTTP/1.1
   Host: example.com
   </pre>
           </pre>
@@ -2318,7 +2318,7 @@ interference or deletion by the server.
           </p>
 
           <pre class="example highlight" title="data vault stream deletion request">
-  DELETE  /encrypted-data-vaults/z4sRgBJJLnYy/docs/zMbxmSDn2Xzz HTTP/1.1
+  DELETE  /edvs/z4sRgBJJLnYy/docs/zMbxmSDn2Xzz HTTP/1.1
   Host: example.com
           </pre>
 
@@ -2395,11 +2395,11 @@ interference or deletion by the server.
           <pre class="example highlight" title="Example history API response">
   [
     {
-        "documentId": "https://example/data-vaults/z4sRgBJJLnYy/docs/z4sAsDFrGYh",
+        "documentId": "https://example/edvs/z4sRgBJJLnYy/docs/z4sAsDFrGYh",
         "sequence": 1
     },
     {
-        "documentId": "https://example/data-vaults/z4sRgBJJLnYy/docs/zaCfHeKsNesS",
+        "documentId": "https://example/edvs/z4sRgBJJLnYy/docs/zaCfHeKsNesS",
         "sequence": 2
     }
   ]
@@ -2452,15 +2452,15 @@ interference or deletion by the server.
           <pre class="example highlight" title="Example history API response">
   [
     {
-        "documentId": "https://example/data-vaults/z4sRgBJJLnYy/docs/zyUtJ67Jm",
+        "documentId": "https://example/edvs/z4sRgBJJLnYy/docs/zyUtJ67Jm",
         "sequence": 5
     },
     {
-        "documentId": "https://example/data-vaults/z4sRgBJJLnYy/docs/zaCHeJtUcNu",
+        "documentId": "https://example/edvs/z4sRgBJJLnYy/docs/zaCHeJtUcNu",
         "sequence": 6
     },
     {
-        "documentId": "https://example/data-vaults/z4sRgBJJLnYy/docs/zaasdChfrJsn",
+        "documentId": "https://example/edvs/z4sRgBJJLnYy/docs/zaasdChfrJsn",
         "sequence": 7
     }
   ]
