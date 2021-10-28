@@ -2683,12 +2683,21 @@ interference or deletion by the server.
   second is to search to see if a specific index exists on a document.
           </p>
 
+
           <p>
-  The example below demonstrates how to search for a specific value associated
-  with a specific index.
+  When doing a search for a specific value associated with a specific index, the syntax for the <code>equals</code> filter is as follows:
+  <code>equals</code> is an array of one or more subfilters.
+  Each subfilter consists of one or more key-value attribute pairs.
+  For a document to be matched, it MUST match at least one of those subfilters.
+  For a document to match a subfilter, it MUST contain all the given attribute pairs within that subfilter.
+  In other words, key-value attribute pairs within a subfilter indicate an AND operation with those pairs, with the final result being an OR operation between the subfilters.
+  If there is only one subfilter needed, then <code>equals</code> MAY be directly set to it instead of being an array of one element.
+
+          <p>
+  The examples below demonstrate how to query for documents within a vault using the syntax described above.
           </p>
 
-          <pre class="example highlight" title="data vault query for a specifically indexed value">
+          <pre class="example highlight" title="data vault query using a single key-value attribute pair">
   POST https://example.com/edvs/z4sRgBJJLnYy/query HTTP/1.1
   Host: example.com
   Content-Type: application/json
@@ -2696,12 +2705,147 @@ interference or deletion by the server.
   Accept-Encoding: gzip, deflate
 
   {
-    "index": "DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ",
+    "index": "https://example.com/kms/z7BgF536GaR",
+    "equals":
+      {"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ":
+        "RV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"
+      },
+    "returnFullDocuments": false
+  }
+
+          </pre>
+
+          <p>
+  The above example would match any document containing the following attribute:
+          </p>
+
+          <pre>
+  {
+    "name": "DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ",
+    "value": "RV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"
+  }
+          </pre>
+
+
+        <pre class="example highlight" title="data vault query using multiple key-value attribute pairs within one subfilter (an AND operation)">
+  POST https://example.com/edvs/z4sRgBJJLnYy/query HTTP/1.1
+  Host: example.com
+  Content-Type: application/json
+  Accept: application/json, text/plain, */*
+  Accept-Encoding: gzip, deflate
+
+  {
+    "index": "https://example.com/kms/z7BgF536GaR",
+    "equals":
+      {"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ":
+        "QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro",
+       "AarngVIZLl0kIp2xEHUH5o5uVc-470roQaOIbqMUD7DFQQypWQ==":
+        "AYubg9VnEitQBxlhjVFnYRlfQ5UHWe3ia4aMiQ6srhcrXtEK2Q=="}
+    ,
+    "returnFullDocuments": false
+  }
+          </pre>
+
+          <p>
+  The above example would match all documents containing BOTH of the following attributes:
+          </p>
+
+          <pre>
+  {
+    "name": "DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ",
+    "value": "QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"
+  }
+
+  {
+    "name": "AarngVIZLl0kIp2xEHUH5o5uVc-470roQaOIbqMUD7DFQQypWQ==",
+    "value": "AYubg9VnEitQBxlhjVFnYRlfQ5UHWe3ia4aMiQ6srhcrXtEK2Q=="
+  }
+          </pre>
+
+          <pre class="example highlight" title="data vault query using multiple subfilters (an OR operation)">
+  POST https://example.com/edvs/z4sRgBJJLnYy/query HTTP/1.1
+  Host: example.com
+  Content-Type: application/json
+  Accept: application/json, text/plain, */*
+  Accept-Encoding: gzip, deflate
+
+  {
+    "index": "https://example.com/kms/z7BgF536GaR",
     "equals": [
-      {"QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro":
-        "dh327d234h8437hc34f43f43ZXGHDXG"}
+      {"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ":
+        "QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"},
+       {"AarngVIZLl0kIp2xEHUH5o5uVc-470roQaOIbqMUD7DFQQypWQ==":
+        "AYubg9VnEitQBxlhjVFnYRlfQ5UHWe3ia4aMiQ6srhcrXtEK2Q=="}
     ],
     "returnFullDocuments": false
+  }
+          </pre>
+
+          <p>
+  The above example would match any document containing EITHER of the following attributes:
+          </p>
+
+          <pre>
+  {
+    "name": "DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ",
+    "value": "QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"
+  }
+
+  {
+    "name": "AarngVIZLl0kIp2xEHUH5o5uVc-470roQaOIbqMUD7DFQQypWQ==",
+    "value": "AYubg9VnEitQBxlhjVFnYRlfQ5UHWe3ia4aMiQ6srhcrXtEK2Q=="
+  }
+          </pre>
+
+          <pre class="example highlight" title="data vault query using a more complex set of subfilters">
+  POST https://example.com/edvs/z4sRgBJJLnYy/query HTTP/1.1
+  Host: example.com
+  Content-Type: application/json
+  Accept: application/json, text/plain, */*
+  Accept-Encoding: gzip, deflate
+
+  {
+    "index": "https://example.com/kms/z7BgF536GaR",
+    "equals": [
+      {"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ":
+        "QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro",
+       "PatVwcVAKLjrp86oXvHFnAJ3ss1EdJY7gp3gBoaRd5g-zIFE6g==":
+         "WatVwcXiIlQUPT2OiTsPRGWvOyJAXctYo2T97fHvkl0_03g9Jw=="},
+       {"AarngVIZLl0kIp2xEHUH5o5uVc-470roQaOIbqMUD7DFQQypWQ==":
+        "AYubg9VnEitQBxlhjVFnYRlfQ5UHWe3ia4aMiQ6srhcrXtEK2Q=="}
+    ],
+    "returnFullDocuments": false
+  }
+          </pre>
+
+          <p>
+  The above example would match any document satisfying EITHER one of the following two conditions:
+          </p>
+
+          <p>
+  Condition 1. It contains BOTH of the following attributes:
+          </p>
+
+          <pre>
+  {
+    "name": "DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ",
+    "value": "QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"
+  }
+
+  {
+    "name": "PatVwcVAKLjrp86oXvHFnAJ3ss1EdJY7gp3gBoaRd5g",
+    "value": "WatVwcXiIlQUPT2OiTsPRGWvOyJAXctYo2T97fHvkl0_03g9Jw=="
+  }
+          </pre>
+
+          <p>
+  Condition 2. It contains the following attribute:
+          </p>
+
+          <pre>
+  {
+    "name": "AarngVIZLl0kIp2xEHUH5o5uVc-470roQaOIbqMUD7DFQQypWQ==",
+    "value": "AYubg9VnEitQBxlhjVFnYRlfQ5UHWe3ia4aMiQ6srhcrXtEK2Q=="
   }
           </pre>
 
