@@ -23,6 +23,16 @@ A Secure Data Storage <em>instance</em> is a deployment of software meeting the
 interface requirements for an EDV and/or Hub.
   </dd>
 
+  <dt><dfn>controller</dfn></dt>
+  <dd>
+The controller of an encrypted data vault instance (specified in the vault
+configuration object upon vault creation) is the entity that controls that
+instance. The controller, typically expressed as a Decentralized Identifier
+(DID), has the root authorization for all encrypted resources in the vault,
+including for the vault configuration object, and can delegate authorization
+to other entities (storage agents).
+  </dd>
+
   <dt><dfn>encrypted resource</dfn></dt>
   <dd>
 An encrypted object (unstructured text, structured document, or binary blob) stored
