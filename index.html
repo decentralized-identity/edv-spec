@@ -558,14 +558,25 @@ Data Model section). This includes Replication configuration.
 <pre class="example highlight"
   title="Example authorization capability for a Create Vault operation.">
 {
-  "@context": ["https://w3id.org/security/v2"],
+  "@context": [
+    "https://w3id.org/security/v2",
+    "https://w3id.org/security/suites/ed25519-2020/v1"
+  ],
+  "id": "urn:zcap:root:https%3A%2F%2Fexample.com%2Fedvs",
   "allowedAction": "write",
   // entity on which the operation is performed
   "invocationTarget": "https://example.com/edvs",
   // DID used to prove possession (invoke the capability)
-  "controller": "did:example:abcd",
+  "invoker": "did:example:abcd#z6Mkje7QZCEUGCxTsxQjq4V37YGZoUrUc9cwJZ3gLHRTrixF",
   "proof": {
-    // ...
+    "type": "Ed25519Signature2020",
+    "created": "2021-11-11T20:30:40Z",
+    "verificationMethod": "did:example:abcd#z6Mkje7QZCEUGCxTsxQjq4V37YGZoUrUc9cwJZ3gLHRTrixF",
+    "proofPurpose": "capabilityInvocation",
+    "capabilityChain": [
+      "urn:zcap:root:https%3A%2F%2Fexample.com%2Fedvs"
+    ],
+    "proofValue": "z3sLGvhHU..."
   }
 }
 </pre>
@@ -580,21 +591,6 @@ Data Model section). This includes Replication configuration.
 This operation creates an encrypted resource (a Document with or without an
 associated Stream), in a given vault instance.
             </p>
-
-<pre class="example highlight"
-  title="Example authorization capability for a Create Resource operation.">
-{
-  "@context": ["https://w3id.org/security/v2"],
-  "allowedAction": "write",
-  // entity on which the operation is performed
-  "invocationTarget": "https://example.com/edvs/z4sRgBJJLnYy/documents",
-  // DID used to prove possession (invoke the capability)
-  "controller": "did:example:abcd",
-  "proof": {
-    // ...
-  }
-}
-</pre>
           </section>
         </section>
 
@@ -613,14 +609,25 @@ Returns the <code>DataVaultConfiguration</code> object for a given Vault.
 <pre class="example highlight"
   title="Example authorization capability for a Read Vault Config operation.">
 {
-  "@context": ["https://w3id.org/security/v2"],
+  "@context": [
+    "https://w3id.org/security/v2",
+    "https://w3id.org/security/suites/ed25519-2020/v1"
+  ],
+  "id": "urn:zcap:root:https%3A%2F%2Fexample.com%2Fedvs/z4sRgBJJLnYy",
   "allowedAction": "read",
   // entity on which the operation is performed
   "invocationTarget": "https://example.com/edvs/z4sRgBJJLnYy",
   // DID used to prove possession (invoke the capability)
-  "controller": "did:example:abcd",
+  "invoker": "did:example:abcd#z6Mkje7QZCEUGCxTsxQjq4V37YGZoUrUc9cwJZ3gLHRTrixF",
   "proof": {
-    // ...
+    "type": "Ed25519Signature2020",
+    "created": "2021-11-11T20:30:40Z",
+    "verificationMethod": "did:example:abcd#z6Mkje7QZCEUGCxTsxQjq4V37YGZoUrUc9cwJZ3gLHRTrixF",
+    "proofPurpose": "capabilityInvocation",
+    "capabilityChain": [
+      "urn:zcap:root:https%3A%2F%2Fexample.com%2Fedvs/z4sRgBJJLnYy"
+    ],
+    "proofValue": "z3sLGvhHU..."
   }
 }
 </pre>
@@ -632,21 +639,6 @@ Returns the <code>DataVaultConfiguration</code> object for a given Vault.
             <p>
 Returns the requested encrypted resource.
             </p>
-
-<pre class="example highlight"
-  title="Example authorization capability for a Read Resource operation.">
-{
-  "@context": ["https://w3id.org/security/v2"],
-  "allowedAction": "read",
-  // entity on which the operation is performed
-  "invocationTarget": "https://example.com/edvs/z4sRgBJJLnYy/documents/zMbxmSDn2Xzz",
-  // DID used to prove possession (invoke the capability)
-  "controller": "did:example:abcd",
-  "proof": {
-    // ...
-  }
-}
-</pre>
           </section>
         </section>
 
@@ -665,14 +657,25 @@ Returns the requested encrypted resource.
 <pre class="example highlight"
   title="Example authorization capability for an Update Vault operation.">
 {
-  "@context": ["https://w3id.org/security/v2"],
+  "@context": [
+    "https://w3id.org/security/v2",
+    "https://w3id.org/security/suites/ed25519-2020/v1"
+  ],
+  "id": "urn:zcap:root:https%3A%2F%2Fexample.com%2Fedvs/z4sRgBJJLnYy",
   "allowedAction": "write",
   // entity on which the operation is performed
   "invocationTarget": "https://example.com/edvs/z4sRgBJJLnYy",
   // DID used to prove possession (invoke the capability)
-  "controller": "did:example:abcd",
+  "invoker": "did:example:abcd#z6Mkje7QZCEUGCxTsxQjq4V37YGZoUrUc9cwJZ3gLHRTrixF",
   "proof": {
-    // ...
+    "type": "Ed25519Signature2020",
+    "created": "2021-11-11T20:30:40Z",
+    "verificationMethod": "did:example:abcd#z6Mkje7QZCEUGCxTsxQjq4V37YGZoUrUc9cwJZ3gLHRTrixF",
+    "proofPurpose": "capabilityInvocation",
+    "capabilityChain": [
+      "urn:zcap:root:https%3A%2F%2Fexample.com%2Fedvs/z4sRgBJJLnYy"
+    ],
+    "proofValue": "z3sLGvhHU..."
   }
 }
 </pre>
@@ -685,21 +688,6 @@ Returns the requested encrypted resource.
 Updates the encrypted resource (note that this is a "full replace" operation),
 and any corresponding encrypted indexes.
             </p>
-
-<pre class="example highlight"
-  title="Example authorization capability for a Read Resource operation.">
-{
-  "@context": ["https://w3id.org/security/v2"],
-  "allowedAction": "write",
-  // entity on which the operation is performed
-  "invocationTarget": "https://example.com/edvs/z4sRgBJJLnYy/documents/zMbxmSDn2Xzz",
-  // DID used to prove possession (invoke the capability)
-  "controller": "did:example:abcd",
-  "proof": {
-    // ...
-  }
-}
-</pre>
           </section>
         </section>
 
@@ -720,14 +708,25 @@ Deletes a vault.
 <pre class="example highlight"
   title="Example authorization capability for a Delete Vault operation.">
 {
-  "@context": ["https://w3id.org/security/v2"],
+  "@context": [
+    "https://w3id.org/security/v2",
+    "https://w3id.org/security/suites/ed25519-2020/v1"
+  ],
+  "id": "urn:zcap:root:https%3A%2F%2Fexample.com%2Fedvs/z4sRgBJJLnYy",
   "allowedAction": "write",
   // entity on which the operation is performed
   "invocationTarget": "https://example.com/edvs/z4sRgBJJLnYy",
   // DID used to prove possession (invoke the capability)
-  "controller": "did:example:abcd",
+  "invoker": "did:example:abcd#z6Mkje7QZCEUGCxTsxQjq4V37YGZoUrUc9cwJZ3gLHRTrixF",
   "proof": {
-    // ...
+    "type": "Ed25519Signature2020",
+    "created": "2021-11-11T20:30:40Z",
+    "verificationMethod": "did:example:abcd#z6Mkje7QZCEUGCxTsxQjq4V37YGZoUrUc9cwJZ3gLHRTrixF",
+    "proofPurpose": "capabilityInvocation",
+    "capabilityChain": [
+      "urn:zcap:root:https%3A%2F%2Fexample.com%2Fedvs/z4sRgBJJLnYy"
+    ],
+    "proofValue": "z3sLGvhHU..."
   }
 }
 </pre>
@@ -742,21 +741,6 @@ Deletes a vault.
 Deletes the encrypted resource (note that a tombstone object should remain
 behind for replication purposes).
             </p>
-
-<pre class="example highlight"
-  title="Example authorization capability for a Delete Resource operation.">
-{
-  "@context": ["https://w3id.org/security/v2"],
-  "allowedAction": "write",
-  // entity on which the operation is performed
-  "invocationTarget": "https://example.com/edvs/z4sRgBJJLnYy/documents/zMbxmSDn2Xzz",
-  // DID used to prove possession (invoke the capability)
-  "controller": "did:example:abcd",
-  "proof": {
-    // ...
-  }
-}
-</pre>
           </section>
         </section>
 
@@ -772,20 +756,6 @@ behind for replication purposes).
               Requests all resources in a vault.
             </p>
 
-<pre class="example highlight"
-  title="Example authorization capability for a Query All Resources in a Vault operation.">
-{
-  "@context": ["https://w3id.org/security/v2"],
-  "allowedAction": "read",
-  // entity on which the operation is performed
-  "invocationTarget": "https://example.com/edvs/z4sRgBJJLnYy/query",
-  // DID used to prove possession (invoke the capability)
-  "controller": "did:example:abcd",
-  "proof": {
-    // ...
-  }
-}
-</pre>
           </section>
 
           <section class="normative">
