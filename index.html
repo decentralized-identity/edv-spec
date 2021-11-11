@@ -1291,56 +1291,6 @@ interference or deletion by the server.
   their contents.
         </p>
 
-        <section>
-          <h3>
-  Discovering Service Endpoints
-          </h3>
-
-          <p>
-  A website may provide service endpoint discovery by embedding JSON-LD in their
-  top-most HTML web page (e.g. at <code>https://example.com/</code>):
-          </p>
-
-          <pre class="example highlight" title="Example of HTML-based service description">
-  &lt;!DOCTYPE html>
-  &lt;html lang="en">
-    &lt;head>
-      &lt;meta charset="utf-8">
-      &lt;title>Example Website&lt;/title>
-      &lt;link rel="stylesheet" href="style.css">
-      &lt;script src="script.js">&lt;/script>
-      &lt;script type="application/ld+json">
-  {
-    "@context": "https://w3id.org/encrypted-data-vaults/v1",
-    "id": "https://example.com/",
-    "name": "Example Website",
-    "dataVaultManagementService": "https://example.com/data-vaults"
-  }
-      &lt;/script>
-    &lt;/head>
-    &lt;body>
-      &lt;!-- page content -->
-    &lt;/body>
-  &lt;/html>
-          </pre>
-
-          <p>
-  Service descriptions may also be requested via content negotiation.
-  In the following example a JSON-compatible service description is provided
-  (e.g. <code>curl -H "Accept: application/json" https://example.com/</code>):
-          </p>
-
-          <pre class="example highlight" title="Example of a JSON-based service description">
-  {
-    "@context": "https://w3id.org/encrypted-data-vaults/v1",
-    "id": "https://example.com/",
-    "name": "Example Website",
-    "dataVaultCreationService": "https://example.com/data-vaults"
-  }
-          </pre>
-
-        </section>
-
         <section class="normative">
           <h3>
     Creating an Encrypted Data Vault
