@@ -2420,27 +2420,25 @@ interference or deletion by the server.
 
         <section class="normative">
           <h3>
-    Creating Encrypted Indexes
+    Blinded Document Attributes
         </h3>
 
           <p>
   It is often useful to search a data vault for structured documents that contain
-  specific metadata. Efficient searching requires the use of search indexes
-  and local access to data. This poses an interesting challenge as the
+  specific metadata. This poses an interesting challenge as the
   search has to be performed on the <a>storage provider</a> without leaking
   information that could violate the privacy of the entities that are storing
-  information in the data vault. This section details how encrypted indexes
-  can be created and used to perform efficient searching while protecting
+  information in the data vault. This section details how blinded attributes
+  can be created and used to perform searches while protecting
   the privacy of entities that are storing information in the data vault.
           </p>
 
           <p>
-  When creating an <a>EncryptedDocument</a>, blinded index properties MAY
-  be used to perform efficient searches. An example of the use of these
-  properties is shown below:
+  When creating an <a>EncryptedDocument</a>, blinded attributes MAY
+  be used to perform searches. An example of the use of these properties is shown below:
           </p>
 
-          <pre class="example highlight" title="Example encrypted document with encrypted indexes">
+          <pre class="example highlight" title="Example encrypted document with blinded attributes">
   {
     "id": "urn:uuid:698f3fb6-592f-4d22-9e04-462cc4606a23",
     "sequence": 0,
@@ -2479,15 +2477,15 @@ interference or deletion by the server.
           </pre>
 
           <p class="note">
-  The example above demonstrates the use of unique index values as well as
-  non-unique indexes.
+  The example above demonstrates the use of unique attributes as well as
+  non-unique attributes.
           </p>
 
           <p>
   The example above enables the <a>storage provider</a> to build
-  efficient indexes on encrypted properties while enabling
+  efficient indexes on blinded properties while enabling
   <a>storage agents</a> to search the information without leaking information
-  that would create privacy concerns.
+  that would create privacy concerns. See <a href="#blinded-document-attributes"></a>
           </p>
 
           <div class="issue">
@@ -2676,21 +2674,21 @@ interference or deletion by the server.
             </p>
 
           <p>
-  The contents of a data vault can be searched using encrypted indexes created
-  using the processes described in <a href="#creating-encrypted-indexes"></a>.
+  The contents of a data vault can be searched using blinded document attributes created
+  using the processes described in <a href="#blinded-document-attributes"></a>.
   There are two primary ways of searching for encrypted documents. The first
-  is to search for a specific value associated with a specific index. The
-  second is to search to see if a specific index exists on a document.
+  is to search for a specific attribute value associated with a specific attribute name. The
+  second is to search to see if a specific attribute name exists on a document.
           </p>
 
 
           <p>
-  When doing a search for a specific value associated with a specific index, the syntax for the <code>equals</code> filter is as follows:
+  When doing a search for a specific attribute value associated with a specific attribute name, the syntax for the <code>equals</code> filter is as follows:
   <code>equals</code> is an array of one or more subfilters.
   Each subfilter consists of one or more key-value attribute pairs.
   For a document to be matched, it MUST match at least one of those subfilters.
   For a document to match a subfilter, it MUST contain all the given attribute pairs within that subfilter.
-  In other words, key-value attribute pairs within a subfilter indicate an AND operation with those pairs, with the final result being an OR operation between the subfilters.
+  In other words, name-value attribute pairs within a subfilter indicate an AND operation with those pairs, with the final result being an OR operation between the subfilters.
   If there is only one subfilter needed, then <code>equals</code> MAY be directly set to it instead of being an array of one element.
 
           <p>
@@ -2914,8 +2912,8 @@ interference or deletion by the server.
           </pre>
 
           <p>
-  The contents of a data vault can also be searched to see if a certain attribute
-  name is indexed by using the <code>has</code> keyword.
+  The contents of a data vault can also be searched to see which documents have a certain attribute
+  name (regardless of attribute value) by using the <code>has</code> keyword.
           </p>
 
           <pre class="example highlight" title="data vault query for a particular attribute name">
@@ -2933,7 +2931,7 @@ interference or deletion by the server.
 
           <p>
   If <code>returnFullDocuments</code> was set to false, a successful query will result in a standard HTTP 200 response with a list
-  of <a>EncryptedDocument</a> identifiers that contain the value:
+  of <a>EncryptedDocument</a> identifiers that match the query:
           </p>
 
           <pre class="example highlight" title="Successful query response containing only document identifiers for a specific attribute name">
@@ -2947,7 +2945,7 @@ interference or deletion by the server.
 
           <p>
   If <code>returnFullDocuments</code> was set to true, a successful query will result in a standard HTTP 200 response with a list
-  of <a>EncryptedDocuments</a> that contain the value:
+  of <a>EncryptedDocuments</a> that match the query:
           </p>
 
             <pre class="example highlight" title="Successful query response containing full documents for a specific attribute name">
