@@ -5,7 +5,7 @@ Community Group (CCG) of the W3C.
 
 ![Vendor Interoperability](https://github.com/decentralized-identity/confidential-storage/workflows/Vendor%20Interoperability/badge.svg)
 
-## Latest [Editors Draft](https://identity.foundation/confidential-storage/)
+## Latest [Editors Draft](https://identity.foundation/edv-spec-storage/)
 
 See also:
 
@@ -19,14 +19,14 @@ See also:
 > protection, CRUD API, access control, synchronization, and at least a
 > minimum viable HTTP-based interface compatible with W3C DIDs/VCs.
 
-> The [Identity Hubs](https://github.com/decentralized-identity/identity-hub) and 
+> The [Decentralized Web Nodes](https://github.com/decentralized-identity/decentralized-web-node) (formerly known as Identity Hubs), and 
 > [Encrypted Data Vaults](https://github.com/digitalbazaar/encrypted-data-vaults) 
 > documents will be used as a use case, requirements, and technical input for the
 > collaborative effort.
 
 ## Community Links
 
-- [Meeting minutes/agendas](https://github.com/decentralized-identity/confidential-storage/blob/master/agenda.md)
+- [Meeting minutes/agendas](https://github.com/decentralized-identity/edv-spec/blob/master/agenda.md)
 - [Working Group Wiki](https://dif.groups.io/g/sds-wg/wiki)
 - [DIF Secure Data Storage Working Group Charter](https://drive.google.com/file/d/1vf2CsD9QZstzrd6CJ4WFVHw0WKwwNLHf/view)
 - [Mailing List](https://dif.groups.io/g/sds-wg/wiki/home)
