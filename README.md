@@ -5,7 +5,7 @@ Community Group (CCG) of the W3C.
 
 ![Vendor Interoperability](https://github.com/decentralized-identity/confidential-storage/workflows/Vendor%20Interoperability/badge.svg)
 
-## Latest [Editors Draft](https://identity.foundation/edv-spec-storage/)
+## Latest [Editors Draft](https://identity.foundation/edv-spec/)
 
 See also:
 
