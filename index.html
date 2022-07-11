@@ -2686,32 +2686,72 @@ interference or deletion by the server.
 
           <p>
   When doing a search for a specific value associated with a specific index, the syntax for the <code>equals</code> filter is as follows:
-  <code>equals</code> is an array of one or more subfilters.
-  Each subfilter consists of one or more key-value attribute pairs.
-  For a document to be matched, it MUST match at least one of those subfilters.
-  For a document to match a subfilter, it MUST contain all the given attribute pairs within that subfilter.
-  In other words, key-value attribute pairs within a subfilter indicate an AND operation with those pairs, with the final result being an OR operation between the subfilters.
-  If there is only one subfilter needed, then <code>equals</code> MAY be directly set to it instead of being an array of one element.
+  <ul>
+
+    <li>
+        <code>equals</code> is an array of one or more <i>subfilters</i>.
+    </li>
+
+    <li>
+        Each <i>subfilter</i> is an array of one or more criteria.
+    </li>
+
+    <li>
+        A <i>criterion</i> has three possible fields: <code>name</code>, <code>value</code>, and <code>has</code>.
+    </li>
+
+    <li>
+        A <i>criterion</i> can be used in two different ways:
+        <ul>
+            <li>
+                To specify documents that contain a specific name+value pair, set <code>name</code> and <code>value</code> accordingly.
+            </li>
+
+            <li>
+                To treat the value in a name-value pair as a wildcard, where any value associated with that name will match, use the <code>has</code> keyword instead.
+            </li>
+        </ul>
+
+    </li>
+
+    <li>
+        When <code>name</code> and <code>value</code> are being used for a single matching <i>criterion</i>, <code>has</code> must be blank. When <code>has</code> is being used, <code>name</code> and <code>value</code> must be blank.
+    </li>
+
+    <li>
+        Multiple <i>criteria</i> in a single <i>subfilter</i> act as AND operations with respect to one another.
+    </li>
+
+    <li>
+        <i>Subfilters</i> act as OR operations with respect to one another.
+    </li>
+
+  </ul>
+
 
           <p>
   The examples below demonstrate how to query for documents within a vault using the syntax described above.
           </p>
 
-          <pre class="example highlight" title="data vault query using a single key-value attribute pair">
+          <pre class="example highlight" title="data vault query using a single &quot;name-value&quot; criterion">
   POST https://example.com/edvs/z4sRgBJJLnYy/query HTTP/1.1
   Host: example.com
   Content-Type: application/json
   Accept: application/json, text/plain, */*
   Accept-Encoding: gzip, deflate
 
-  {
-    "index": "https://example.com/kms/z7BgF536GaR",
-    "equals":
-      {"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ":
-        "RV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"
-      },
-    "returnFullDocuments": false
-  }
+    {
+       "index":"https://example.com/kms/z7BgF536GaR",
+       "equals":[
+          [
+             {
+                "name":"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ",
+                "value":"RV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"
+             }
+          ]
+       ],
+       "returnFullDocuments":false
+    }
 
           </pre>
 
@@ -2726,24 +2766,62 @@ interference or deletion by the server.
   }
           </pre>
 
-
-        <pre class="example highlight" title="data vault query using multiple key-value attribute pairs within one subfilter (an AND operation)">
+          <pre class="example highlight" title="data vault query using a single &quot;has&quot; criterion">
   POST https://example.com/edvs/z4sRgBJJLnYy/query HTTP/1.1
   Host: example.com
   Content-Type: application/json
   Accept: application/json, text/plain, */*
   Accept-Encoding: gzip, deflate
 
+    {
+       "index":"https://example.com/kms/z7BgF536GaR",
+       "equals":[
+          [
+             {
+                "has":"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ"
+             }
+          ]
+       ],
+       "returnFullDocuments":false
+    }
+
+          </pre>
+
+          <p>
+  The above example would match any document containing the following attribute:
+          </p>
+
+          <pre>
   {
-    "index": "https://example.com/kms/z7BgF536GaR",
-    "equals":
-      {"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ":
-        "QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro",
-       "AarngVIZLl0kIp2xEHUH5o5uVc-470roQaOIbqMUD7DFQQypWQ==":
-        "AYubg9VnEitQBxlhjVFnYRlfQ5UHWe3ia4aMiQ6srhcrXtEK2Q=="}
-    ,
-    "returnFullDocuments": false
+    "name": "DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ",
+    "value": (any value)
   }
+          </pre>
+
+
+        <pre class="example highlight" title="data vault query using two &quot;name-value&quot; criteria within one subfilter (an AND operation)">
+  POST https://example.com/edvs/z4sRgBJJLnYy/query HTTP/1.1
+  Host: example.com
+  Content-Type: application/json
+  Accept: application/json, text/plain, */*
+  Accept-Encoding: gzip, deflate
+
+    {
+       "index":"https://example.com/kms/z7BgF536GaR",
+       "equals":[
+          [
+             {
+                "name":"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ",
+                "value":"QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"
+             },
+             {
+                "name":"AarngVIZLl0kIp2xEHUH5o5uVc-470roQaOIbqMUD7DFQQypWQ==",
+                "value":"AYubg9VnEitQBxlhjVFnYRlfQ5UHWe3ia4aMiQ6srhcrXtEK2Q=="
+             }
+          ]
+       ],
+       "returnFullDocuments":false
+    }
           </pre>
 
           <p>
@@ -2762,23 +2840,31 @@ interference or deletion by the server.
   }
           </pre>
 
-          <pre class="example highlight" title="data vault query using multiple subfilters (an OR operation)">
+          <pre class="example highlight" title="data vault query using two &quot;name-value&quot; criteria across two subfilters (an OR operation)">
   POST https://example.com/edvs/z4sRgBJJLnYy/query HTTP/1.1
   Host: example.com
   Content-Type: application/json
   Accept: application/json, text/plain, */*
   Accept-Encoding: gzip, deflate
 
-  {
-    "index": "https://example.com/kms/z7BgF536GaR",
-    "equals": [
-      {"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ":
-        "QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"},
-       {"AarngVIZLl0kIp2xEHUH5o5uVc-470roQaOIbqMUD7DFQQypWQ==":
-        "AYubg9VnEitQBxlhjVFnYRlfQ5UHWe3ia4aMiQ6srhcrXtEK2Q=="}
-    ],
-    "returnFullDocuments": false
-  }
+    {
+       "index":"https://example.com/kms/z7BgF536GaR",
+       "equals":[
+          [
+             {
+                "name":"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ",
+                "value":"QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"
+             }
+          ],
+          [
+             {
+                "name":"AarngVIZLl0kIp2xEHUH5o5uVc-470roQaOIbqMUD7DFQQypWQ==",
+                "value":"AYubg9VnEitQBxlhjVFnYRlfQ5UHWe3ia4aMiQ6srhcrXtEK2Q=="
+             }
+          ]
+       ],
+       "returnFullDocuments":false
+    }
           </pre>
 
           <p>
@@ -2797,25 +2883,34 @@ interference or deletion by the server.
   }
           </pre>
 
-          <pre class="example highlight" title="data vault query using a more complex set of subfilters">
+          <pre class="example highlight" title="a more complex data vault query using a mix of &quot;name-value&quot; and &quot;has&quot; criteria with AND and OR operations">
   POST https://example.com/edvs/z4sRgBJJLnYy/query HTTP/1.1
   Host: example.com
   Content-Type: application/json
   Accept: application/json, text/plain, */*
   Accept-Encoding: gzip, deflate
 
-  {
-    "index": "https://example.com/kms/z7BgF536GaR",
-    "equals": [
-      {"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ":
-        "QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro",
-       "PatVwcVAKLjrp86oXvHFnAJ3ss1EdJY7gp3gBoaRd5g-zIFE6g==":
-         "WatVwcXiIlQUPT2OiTsPRGWvOyJAXctYo2T97fHvkl0_03g9Jw=="},
-       {"AarngVIZLl0kIp2xEHUH5o5uVc-470roQaOIbqMUD7DFQQypWQ==":
-        "AYubg9VnEitQBxlhjVFnYRlfQ5UHWe3ia4aMiQ6srhcrXtEK2Q=="}
-    ],
-    "returnFullDocuments": false
-  }
+    {
+       "index":"https://example.com/kms/z7BgF536GaR",
+       "equals":[
+          [
+             {
+                "name":"DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ",
+                "value":"QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"
+             },
+             {
+                "has":"PatVwcVAKLjrp86oXvHFnAJ3ss1EdJY7gp3gBoaRd5g-zIFE6g=="
+             }
+          ],
+          [
+             {
+                "name":"AarngVIZLl0kIp2xEHUH5o5uVc-470roQaOIbqMUD7DFQQypWQ==",
+                "value":"AYubg9VnEitQBxlhjVFnYRlfQ5UHWe3ia4aMiQ6srhcrXtEK2Q=="
+             }
+          ]
+       ],
+       "returnFullDocuments":false
+    }
           </pre>
 
           <p>
@@ -2834,7 +2929,7 @@ interference or deletion by the server.
 
   {
     "name": "PatVwcVAKLjrp86oXvHFnAJ3ss1EdJY7gp3gBoaRd5g",
-    "value": "WatVwcXiIlQUPT2OiTsPRGWvOyJAXctYo2T97fHvkl0_03g9Jw=="
+    "value": (any value)
   }
           </pre>
 
@@ -2869,88 +2964,6 @@ interference or deletion by the server.
           </p>
 
             <pre class="example highlight" title="Successful query response containing full documents from a data vault">
-  HTTP/1.1 200 OK
-  Cache-Control: no-cache, no-store, must-revalidate
-  Date: Fri, 14 Jun 2019 18:45:18 GMT
-  Connection: keep-alive
-
-  [
-    {
-      "id": "zMbxmSDn2Xzz",
-      "sequence": 0,
-      "indexed": [{
-        "sequence": 0,
-        "hmac": {
-          "id": "https://example.com/kms/z7BgF536GaR",
-          "type": "Sha256HmacKey2019"
-        },
-        "attributes": [{
-          "name": "CUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ",
-          "value": "RV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro",
-          "unique": true
-        }, {
-          "name": "DUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ",
-          "value": "QV58Va4904K-18_L5g_vfARXRWEB00knFSGPpukUBro"
-        }]
-      }],
-      "jwe": {
-        "protected": "eyJlbmMiOiJDMjBQIn0",
-        "recipients": [
-          {
-            "header": {
-              "alg": "A256KW",
-              "kid": "https://example.com/kms/z7BgF536GaR"
-            },
-            "encrypted_key":
-              "OR1vdCNvf_B68mfUxFQVT-vyXVrBembuiM40mAAjDC1-Qu5iArDbug"
-          }
-        ],
-        "iv": "i8Nins2vTI3PlrYW",
-        "ciphertext": "Cb-963UCXblINT8F6MDHzMJN9EAhK3I",
-        "tag": "pfZO0JulJcrc3trOZy8rjA"
-      }
-    }
-  ]
-          </pre>
-
-          <p>
-  The contents of a data vault can also be searched to see if a certain attribute
-  name is indexed by using the <code>has</code> keyword.
-          </p>
-
-          <pre class="example highlight" title="data vault query for a particular attribute name">
-  POST https://example.com/edvs/z4sRgBJJLnYy/query HTTP/1.1
-  Host: example.com
-  Content-Type: application/json
-  Accept: application/json, text/plain, */*
-  Accept-Encoding: gzip, deflate
-
-  {
-    "has": ["CUQaxPtSLtd8L3WBAIkJ4DiVJeqoF6bdnhR7lSaPloZ"],
-    "returnFullDocuments": false
-  }
-          </pre>
-
-          <p>
-  If <code>returnFullDocuments</code> was set to false, a successful query will result in a standard HTTP 200 response with a list
-  of <a>EncryptedDocument</a> identifiers that contain the value:
-          </p>
-
-          <pre class="example highlight" title="Successful query response containing only document identifiers for a specific attribute name">
-  HTTP/1.1 200 OK
-  Cache-Control: no-cache, no-store, must-revalidate
-  Date: Fri, 14 Jun 2019 18:45:18 GMT
-  Connection: keep-alive
-
-  ["https://example.com/edvs/z4sRgBJJLnYy/docs/zMbxmSDn2Xzz"]
-          </pre>
-
-          <p>
-  If <code>returnFullDocuments</code> was set to true, a successful query will result in a standard HTTP 200 response with a list
-  of <a>EncryptedDocuments</a> that contain the value:
-          </p>
-
-            <pre class="example highlight" title="Successful query response containing full documents for a specific attribute name">
   HTTP/1.1 200 OK
   Cache-Control: no-cache, no-store, must-revalidate
   Date: Fri, 14 Jun 2019 18:45:18 GMT
