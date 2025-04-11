@@ -8,12 +8,12 @@
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
      -->
-    <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c' class='remove'></script>
     <script src="./common.js" class="remove"></script>
     <script type="text/javascript" class="remove">
       var respecConfig = {
         // specification status (e.g., WD, LCWD, NOTE, etc.). If in doubt use ED.
-        specStatus: "unofficial",
+        specStatus: "CG-DRAFT",
 
         // the specification's short name, as in http://www.w3.org/TR/short-name/
         shortName: "edv-spec",
@@ -25,9 +25,9 @@
         //publishDate: "2019-03-26",
         //crEnd: "2019-04-23",
         //implementationReportURI: "https://w3c.github.io/sdh-test-suite",
-        previousMaturity: "CG-DRAFT",
-        previousPublishDate: "2020-01-26",
-        prevVersion: "https://digitalbazaar.github.io/encrypted-data-vaults/",
+        //previousMaturity: "CG-DRAFT",
+        //previousPublishDate: "2020-01-26",
+        //prevVersion: "https://digitalbazaar.github.io/encrypted-data-vaults/",
 
         // extend the bibliography entries
         localBiblio: ccg.localBiblio,
@@ -61,10 +61,10 @@
         // [
         // ],
         // name of the WG
-        // wg:     "Secure Data Storage Working Group",
+        group:     "credentials",
 
         // URI of the public WG page
-        // wgURI:        "https://www.w3.org/community/credentials/",
+        //wgURI:        "https://lists.identity.foundation/g/sds-wg/",
 
         // name (with the @w3c.org) of the public mailing to which comments are due
         // wgPublicList: "public-credentials",
@@ -76,7 +76,8 @@
         // Team Contact.
         // wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/98922/status",
         maxTocLevel: 2,
-        inlineCSS: true
+        inlineCSS: true,
+        lint: {"no-unused-dfns": false}
       };
     </script>
     <style>
@@ -335,7 +336,7 @@ Protocols
 Since this system can reside in a variety of operating environments, it is
 important that at least one protocol is mandatory, but that other protocols are
 also allowed by the design. Examples of protocols include HTTP, gRPC, Bluetooth,
-and various binary on-the-wire protocols. An HTTPS API is defined in <a href="#data-vault-https-api"></a>.
+and various binary on-the-wire protocols. An HTTPS API is defined in <a href="#http-api"></a>.
           </p>
         </section>
 
@@ -406,8 +407,7 @@ implementations while innovation can by carried out by clients.
 Terminology
       </h2>
 
-      <div data-include="./terms.html"
-        data-oninclude="restrictReferences">
+      <div data-include="./terms.html">
       </div>
     </section>
 
@@ -603,8 +603,6 @@ this is a "full replace" operation).
             Delete Operation
           </h3>
 
-          <p class="issue" data-number="114"></p>
-
           <ul>
             <li>
 Delete Vault Configuration: Deletes a Vault.
@@ -637,14 +635,12 @@ a tombstone object should remain behind for replication purposes).
         <h2>
   Authorization Structure
         </h2>
-        <p class="issue" data-number="134"></p>
       </section>
 
       <section class="normative">
         <h2>
   Authorization Invocation
         </h2>
-        <p class="issue" data-number="135"></p>
       </section>
 
     </section> <!--end Core Concepts-->
@@ -1390,7 +1386,7 @@ interference or deletion by the server.
   A structured document is stored in a data vault by encoding a
   <a>StructuredDocument</a> as an <a>EncryptedDocument</a> and then performing
   an HTTP POST to a data vault endpoint created via
-  <a href="#creating-a-data-vault"></a>.
+  <a href="#creating-an-encrypted-data-vault"></a>.
   The following HTTP status codes are defined for this service:
           </p>
 
@@ -1575,7 +1571,7 @@ interference or deletion by the server.
   A structured document is updated in a data vault by encoding the updated
   <a>StructuredDocument</a> as an <a>EncryptedDocument</a> and then performing
   an HTTP POST to a data vault endpoint created via
-  <a href="#creating-a-data-vault"></a>.
+  <a href="#creating-an-encrypted-data-vault"></a>.
   The following HTTP status codes are defined for this service:
           </p>
 
@@ -1658,7 +1654,7 @@ interference or deletion by the server.
 
           <p>
   A structured document is deleted by performing an HTTP DELETE to a data vault
-  endpoint created via <a href="#creating-a-data-vault"></a>.
+  endpoint created via <a href="#creating-an-encrypted-data-vault"></a>.
   The following HTTP status codes are defined for this service:
           </p>
 
@@ -1982,7 +1978,7 @@ interference or deletion by the server.
           </pre>
 
           <p>
-  Next, in order to convert a stream to an <a>EncryptedStream</a> an implementer
+  Next, in order to convert a stream to an <dfn>EncryptedStream</dfn> an implementer
   MUST encrypt the stream. Once the stream is encrypted (or as it is encrypted),
   it can be sent to the stream creation service.
           </p>
