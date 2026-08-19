@@ -23,7 +23,13 @@ A Secure Data Storage <em>instance</em> is a deployment of software meeting the
 interface requirements for an EDV and/or Hub.
   </dd>
 
-  <dt><dfn>controller</dfn></dt>
+  <dt><dfn data-lt="client|edv client|storage agent">edv client</dfn></dt>
+  <dd>
+A component (code library or service) that can make authorization-carrying
+Encrypted Data Vault API requests to an EDV storage <a>instance</a>.
+  </dd>
+
+  <dt><dfn data-lt="controller|vault controller">controller</dfn></dt>
   <dd>
 The controller of an encrypted data vault instance (specified in the vault
 configuration object upon vault creation) is the entity that controls that
@@ -48,6 +54,15 @@ and indexes) to another instance. Replication can be configured to be either
 unidirectional or bidirectional, and can operate in several modes (realtime,
 full-sync, or both).
   </dd>
+
+  <dt><dfn data-lt="storage provider|edv provider">storage provider</dfn></dt>
+  <dd>
+    A role an <a>entity</a> might perform by providing a raw data storage
+    mechanism to a <a>data vault controller</a>. Importantly, the provider
+    is not able to see any of the data payloads being stored, due to it being
+    end-to-end encrypted.
+  </dd>
+
   <dt><dfn data-lt="synchronization|synchronization's">synchronization</dfn></dt>
   <dd>
 A combination of replication and conflict resolution.
