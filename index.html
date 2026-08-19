@@ -185,65 +185,6 @@ broad practical appeal.
 
       <section class="informative">
         <h3>
-Ecosystem Overview
-        </h3>
-
-        <p>
-The problem of decentralized data storage has been approached from various
-different angles, and personal data stores (PDS), decentralized or otherwise,
-have a long history in commercial and academic settings. Different approaches
-have resulted in variations in terminology and architectures.
-The diagram below shows the types of components that are emerging, and the roles
-they play. Encrypted Data Vaults fulfill the low-level encrypted
-<em>storage</em> role.
-        </p>
-
-        <figure>
-          <img style="margin: auto; display: block; width: 75%;"
-         src="diagrams/SDS_Layers.svg" alt="diagram showing
-         the roles of different technologies in the encrypted
-         data vaults and secure data store ecosystem and how they interact.">
-          <figcaption style="text-align: center;">
-            Confidential Storage layers
-          </figcaption>
-        </figure>
-
-        <p>
-This section describes the roles of the core actors and the relationships
-between them in an ecosystem where this specification is expected
-to be useful. A role is an abstraction that might be implemented in many
-different ways. The separation of roles suggests likely interfaces and
-protocols for standardization. The following roles are introduced in this
-specification:
-        </p>
-
-        <dl>
-          <dt><dfn>data vault controller</dfn></dt>
-          <dd>
-A role an <a>entity</a> might perform by creating, managing, and deleting
-data vaults. This entity is also responsible for granting and revoking
-authorization to <a>storage agents</a> to the data vaults that are under its
-control.
-          </dd>
-          <dt><dfn data-lt="storage agents">storage agent</dfn></dt>
-          <dd>
-A role an <a>entity</a> might perform by creating, updating, and deleting
-data in a data vault. This entity is typically granted authorization to
-to access a data vault by a <a>data vault controller</a>.
-          </dd>
-          <dt><dfn>storage provider</dfn></dt>
-          <dd>
-A role an <a>entity</a> might perform by providing a raw data storage
-mechanism to a <a>data vault controller</a>. It is impossible for this entity
-to see the data that it is storing due to all data being encrypted at rest
-and in transit to and from the <a>storage provider</a>.
-          </dd>
-        </dl>
-
-      </section>
-
-      <section class="informative">
-        <h3>
 Requirements
         </h3>
 
