@@ -397,6 +397,159 @@ implementations while innovation can by carried out by clients.
 
       </section>
 
+      <section class="informative">
+        <h3>
+API Summary
+        </h3>
+
+        <p>
+This section summarizes the HTTP API at a glance. All operations require
+authorization. Deployed implementations authorize requests with Authorization
+Capabilities (zcaps) invoked through HTTP signatures; see
+<a href="#authorization-structure"></a> and
+<a href="#authorization-invocation"></a>.
+        </p>
+
+        <p>
+The endpoints below divide into a core set that every conformant server
+implements, and optional extensions grouped by feature. Each row links to the
+section that defines its operation. Rows marked "Not yet specified" are
+implemented by deployed servers and exercised by the conformance test suite,
+but do not yet have a defining section in this specification.
+        </p>
+
+        <p class="issue">
+This summary reflects the protocol as deployed. Some detail sections it links
+to are older and differ: they use the legacy <code>/docs</code> path segment
+where deployments use <code>/documents</code>, and they define an HTTP
+<code>DELETE</code> operation for documents that deployments do not offer.
+Those sections are being updated to match.
+        </p>
+
+        <section>
+          <h4>
+Core
+          </h4>
+
+          <p>
+Vault management:
+          </p>
+
+          <ul>
+            <li>
+<code>POST /edvs</code> -- <a href="#creating-an-encrypted-data-vault"></a>
+            </li>
+            <li>
+<code>GET /edvs/{edv_id}</code> -- read a vault's configuration.
+Not yet specified.
+            </li>
+            <li>
+<code>POST /edvs/{edv_id}</code> -- update a vault's configuration.
+Not yet specified.
+            </li>
+          </ul>
+
+          <p>
+Document operations:
+          </p>
+
+          <ul>
+            <li>
+<code>POST /edvs/{edv_id}/documents</code> -- <a href="#creating-a-document"></a>
+            </li>
+            <li>
+<code>GET /edvs/{edv_id}/documents/{doc_id}</code> --
+<a href="#reading-a-document"></a>
+            </li>
+            <li>
+<code>POST /edvs/{edv_id}/documents/{doc_id}</code> --
+<a href="#updating-a-document"></a>
+            </li>
+            <li>
+There is no HTTP <code>DELETE</code> operation for documents. A document is
+deleted by updating it to an encrypted tombstone; see
+<a href="#deleting-a-document"></a>.
+            </li>
+          </ul>
+
+          <p>
+Search:
+          </p>
+
+          <ul>
+            <li>
+<code>POST /edvs/{edv_id}/query</code> --
+<a href="#searching-encrypted-documents"></a>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>
+Optional extensions
+          </h4>
+
+          <p>
+Vault discovery:
+          </p>
+
+          <ul>
+            <li>
+<code>GET /edvs?controller={controller}&amp;referenceId={reference_id}</code>
+-- find vault configurations by controller and reference identifier.
+Not yet specified.
+            </li>
+          </ul>
+
+          <p>
+Streams (chunked binary data):
+          </p>
+
+          <ul>
+            <li>
+<code>POST|GET|DELETE /edvs/{edv_id}/documents/{doc_id}/chunks/{chunk_index}</code>
+-- store, read, or delete a single encrypted chunk of a stream. Not yet
+specified; supersedes the legacy stream endpoints in
+<a href="#creating-a-stream"></a>, <a href="#reading-a-stream"></a>, and
+<a href="#deleting-a-stream"></a>, which are out of date.
+            </li>
+          </ul>
+
+          <p>
+Capability revocation:
+          </p>
+
+          <ul>
+            <li>
+<code>POST /edvs/{edv_id}/zcaps/revocations/{revocation_id}</code> -- revoke
+a delegated authorization capability. Not yet specified.
+            </li>
+          </ul>
+
+          <p>
+Change history:
+          </p>
+
+          <ul>
+            <li>
+<code>GET /edvs/{edv_id}/history</code> --
+<a href="#requesting-history-of-changes"></a>
+            </li>
+          </ul>
+
+          <p>
+Batch operations:
+          </p>
+
+          <ul>
+            <li>
+<code>POST /edvs/{edv_id}/batch</code> -- <a href="#batch-operations"></a>
+(this feature is at risk)
+            </li>
+          </ul>
+        </section>
+      </section>
+
       <section id="conformance" class="normative">
       </section>
 
