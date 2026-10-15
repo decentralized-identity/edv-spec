@@ -1776,50 +1776,74 @@ interference or deletion by the server.
         </h3>
 
           <p>
-  A structured document is deleted by performing an HTTP DELETE to a data vault
-  endpoint created via <a href="#creating-an-encrypted-data-vault"></a>.
-  The following HTTP status codes are defined for this service:
+  There is no HTTP <code>DELETE</code> operation for documents. A document is
+  deleted by replacing it with an encrypted tombstone, using the same update
+  operation described in <a href="#updating-a-document"></a>. Because the
+  tombstone is encrypted like any other document, the server cannot
+  distinguish a deleted document from a live one. The document continues to
+  occupy its identifier, and its <code>sequence</code> history is preserved.
           </p>
-
-          <table class="simple">
-            <thead>
-              <th style="white-space: nowrap">HTTP Status</th>
-              <th>Description</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>200</td>
-                <td>
-  Structured document was deleted successfully.
-                </td>
-              </tr>
-              <tr>
-                <td>400</td>
-                <td>
-  Structured document deletion failed.
-                </td>
-              </tr>
-              <tr>
-                <td>404</td>
-                <td>
-  Structured document was not found.
-                </td>
-              </tr>
-            </tbody>
-          </table>
 
           <p>
-  A protocol example of a document deletion is shown below:
+  To delete a document, a client MUST construct a <a>StructuredDocument</a>
+  with the same <code>id</code> as the document being deleted, an empty
+  <code>content</code> object, and a <code>meta</code> object whose
+  <code>deleted</code> property is <code>true</code>. The client MUST
+  increment <code>sequence</code> by one, encode the tombstone as an
+  <a>EncryptedDocument</a> (preserving the existing recipients), and
+  perform an HTTP POST to the document's endpoint. The HTTP status codes
+  are those defined for <a href="#updating-a-document"></a>.
           </p>
 
-          <pre class="example highlight" title="data vault document deletion request">
-  DELETE  /edvs/z4sRgBJJLnYy/docs/zMbxmSDn2Xzz HTTP/1.1
-  Host: example.com
+          <p>
+  A tombstone has the following plaintext shape prior to encryption:
+          </p>
+
+          <pre class="example highlight" title="Structured document tombstone (plaintext, before encryption)">
+  {
+    "id": "urn:uuid:94684128-c42c-4b28-adb0-aec77bf76044",
+    "sequence": 2,
+    "content": {},
+    "meta": {
+      "deleted": true
+    }
+  }
           </pre>
 
           <p>
-  If the deletion of the encrypted document was successful, an HTTP 200 status
-  code is expected in return:
+  A protocol example of a document deletion is shown below. The request is
+  indistinguishable on the wire from any other document update:
+          </p>
+
+          <pre class="example highlight" title="data vault document deletion (tombstone update) request">
+  POST  /edvs/z4sRgBJJLnYy/documents/zMbxmSDn2Xzz HTTP/1.1
+  Host: example.com
+  Content-Type: application/json
+  Accept: application/json, text/plain, */*
+  Accept-Encoding: gzip, deflate
+
+  {
+    "id": "urn:uuid:94684128-c42c-4b28-adb0-aec77bf76044",
+    "sequence": 2,
+    "jwe": {
+      "protected": "eyJlbmMiOiJDMjBQIn0",
+      "recipients": [{
+        "header": {
+          "alg": "A256KW",
+          "kid": "https://example.com/kms/zSDn2MzzbxmX"
+        },
+        "encrypted_key": "OR1vdCNvf_B68mfUxFQVT-vyXVrBembuiM40mAAjDC1-Qu5iArDbug"
+      }],
+      "iv": "i8Nins2vTI3PlrYW",
+      "ciphertext": "Cb-963UCXblINT8F6MDHzMJN9EAhK3I",
+      "tag": "pfZO0JulJcrc3trOZy8rjA"
+    }
+  }
+          </pre>
+
+          <p>
+  If the deletion was successful, an HTTP 200 status code is expected in
+  return:
           </p>
 
           <pre class="example highlight" title="Successful data vault document deletion response">
@@ -1828,6 +1852,15 @@ interference or deletion by the server.
   Date: Fri, 14 Jun 2019 18:40:18 GMT
   Connection: keep-alive
           </pre>
+
+          <p>
+  Reading a deleted document via <a href="#reading-a-document"></a> returns
+  the tombstone. Clients MUST treat a decrypted document whose
+  <code>meta.deleted</code> property is <code>true</code> as deleted.
+  A deleted document MAY be revived by updating it again with new
+  <code>content</code>, a <code>meta</code> object without the
+  <code>deleted</code> property, and the next <code>sequence</code> value.
+          </p>
         </section>
 
         <section class="normative">
@@ -2320,16 +2353,29 @@ interference or deletion by the server.
     Deleting a Stream
         </h3>
 
-          <p class="issue">
-  This section is out of date, do not implement.
+          <p>
+  A stream consists of a metadata document, whose <code>meta.chunks</code>
+  property records the number of chunks, and the chunks themselves, each
+  stored at the chunk endpoint
+  <code>/edvs/{edv_id}/documents/{doc_id}/chunks/{chunk_index}</code>.
+  There is no stream-level HTTP <code>DELETE</code> operation. Deleting a
+  stream has two parts.
           </p>
 
           <p>
-  A stream is deleted by performing an HTTP DELETE to a data vault
-  stream endpoint created via <a href="#creating-a-stream"></a> and
-  the corresponding metadata document created via
-  <a href="#creating-a-document"></a>. The following HTTP status codes are
-  defined for this service:
+  First, the client MUST delete the metadata document by replacing it with
+  an encrypted tombstone, as described in
+  <a href="#deleting-a-document"></a>. The tombstone has an empty
+  <code>content</code> object and a <code>meta</code> object whose
+  <code>deleted</code> property is <code>true</code>, so the
+  <code>meta.chunks</code> property is dropped along with the rest of the
+  stream metadata.
+          </p>
+
+          <p>
+  Second, the client SHOULD delete each chunk by performing an HTTP DELETE
+  on its chunk endpoint. Servers MUST support this operation. The following
+  HTTP status codes are defined for this service:
           </p>
 
           <table class="simple">
@@ -2339,70 +2385,47 @@ interference or deletion by the server.
             </thead>
             <tbody>
               <tr>
-                <td>200</td>
+                <td>204</td>
                 <td>
-  Stream was deleted successfully.
-                </td>
-              </tr>
-              <tr>
-                <td>400</td>
-                <td>
-  Stream deletion failed.
+  Chunk was deleted successfully.
                 </td>
               </tr>
               <tr>
                 <td>404</td>
                 <td>
-  Stream was not found.
+  Chunk was not found.
                 </td>
               </tr>
             </tbody>
           </table>
 
           <p>
-  A protocol example of a stream deletion is shown below:
+  A protocol example of a chunk deletion is shown below:
           </p>
 
-          <pre class="example highlight" title="data vault stream deletion request">
-  DELETE  /edvs/z4sRgBJJLnYy/streams/zMbxmSDn2Xzz HTTP/1.1
+          <pre class="example highlight" title="data vault chunk deletion request">
+  DELETE  /edvs/z4sRgBJJLnYy/documents/zMbxmSDn2Xzz/chunks/0 HTTP/1.1
   Host: example.com
-  </pre>
           </pre>
 
           <p>
-  If the deletion of the encrypted stream was successful, an HTTP 200 status
-  code is expected in return:
+  If the deletion of the chunk was successful, an HTTP 204 status code is
+  expected in return:
           </p>
 
-          <pre class="example highlight" title="Successful data vault stream deletion response">
-  HTTP/1.1 200 OK
+          <pre class="example highlight" title="Successful data vault chunk deletion response">
+  HTTP/1.1 204 No Content
   Cache-Control: no-cache, no-store, must-revalidate
   Date: Fri, 14 Jun 2019 18:40:18 GMT
   Connection: keep-alive
           </pre>
 
           <p>
-  Once the stream is deleted, implementations MUST also delete the corresponding
-  metadata document:
+  Chunks that are not deleted remain on the server after the metadata
+  document has been tombstoned. A later update of the metadata document that
+  revives the stream and restores <code>meta.chunks</code> MUST store its
+  chunks again rather than rely on chunks left behind by an earlier version.
           </p>
-
-          <pre class="example highlight" title="data vault stream deletion request">
-  DELETE  /edvs/z4sRgBJJLnYy/docs/zMbxmSDn2Xzz HTTP/1.1
-  Host: example.com
-          </pre>
-
-          <p>
-  If the deletion of the encrypted stream was successful, an HTTP 200 status
-  code is expected in return:
-          </p>
-
-          <pre class="example highlight" title="Successful data vault stream deletion response">
-  HTTP/1.1 200 OK
-  Cache-Control: no-cache, no-store, must-revalidate
-  Date: Fri, 14 Jun 2019 18:40:18 GMT
-  Connection: keep-alive
-          </pre>
-
         </section>
 
         <section class="normative">
