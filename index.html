@@ -1778,25 +1778,33 @@ interference or deletion by the server.
           <p>
   There is no HTTP <code>DELETE</code> operation for documents. A document is
   deleted by replacing it with an encrypted tombstone, using the same update
-  operation described in <a href="#updating-a-document"></a>. Because the
-  tombstone is encrypted like any other document, the server cannot
-  distinguish a deleted document from a live one. The document continues to
+  operation described in <a href="#updating-a-document"></a>. The tombstone
+  is encrypted like any other document. Note that a server may still be
+  able to guess that a document has been deleted, since a tombstone with
+  empty <code>content</code> produces a noticeably small ciphertext. The
+  server is not expected to make that distinction, and a server MUST NOT
+  attempt to infer whether a document is deleted (from ciphertext size or
+  any other property of the encrypted document). The document continues to
   occupy its identifier, and its <code>sequence</code> history is preserved.
           </p>
 
           <p>
   To delete a document, a client MUST construct a <a>StructuredDocument</a>
-  with the same <code>id</code> as the document being deleted, an empty
-  <code>content</code> object, and a <code>meta</code> object whose
-  <code>deleted</code> property is <code>true</code>. The client MUST
-  increment <code>sequence</code> by one, encode the tombstone as an
+  with the same <code>id</code> as the document being deleted and a
+  <code>meta</code> object whose <code>deleted</code> property is
+  <code>true</code>. The <code>content</code> object SHOULD be empty.
+  A client MAY instead populate <code>content</code> with other data,
+  for example padding, so that the ciphertext size of the tombstone does
+  not reveal that the document was deleted. The client MUST increment
+  <code>sequence</code> by one, encode the tombstone as an
   <a>EncryptedDocument</a> (preserving the existing recipients), and
   perform an HTTP POST to the document's endpoint. The HTTP status codes
   are those defined for <a href="#updating-a-document"></a>.
           </p>
 
           <p>
-  A tombstone has the following plaintext shape prior to encryption:
+  A tombstone with empty <code>content</code> has the following plaintext
+  shape prior to encryption:
           </p>
 
           <pre class="example highlight" title="Structured document tombstone (plaintext, before encryption)">
@@ -2365,11 +2373,10 @@ interference or deletion by the server.
           <p>
   First, the client MUST delete the metadata document by replacing it with
   an encrypted tombstone, as described in
-  <a href="#deleting-a-document"></a>. The tombstone has an empty
-  <code>content</code> object and a <code>meta</code> object whose
-  <code>deleted</code> property is <code>true</code>, so the
-  <code>meta.chunks</code> property is dropped along with the rest of the
-  stream metadata.
+  <a href="#deleting-a-document"></a>. The tombstone's <code>meta</code>
+  object has its <code>deleted</code> property set to <code>true</code>,
+  and the <code>meta.chunks</code> property is dropped along with the rest
+  of the stream metadata.
           </p>
 
           <p>
